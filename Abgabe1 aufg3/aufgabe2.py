@@ -2,21 +2,22 @@
 import sys
 
 
-
+i=0
+j=0
     
-def bicoef1(n,k):   
+def bicoef1(n,k):
     if k==0 or k==n:
         return 1
     if k>n:
         return 0
-    return bicoef1(n-1,k-1)+bicoef1(n-1,k)
+    return (bicoef1(n-1,k-1)+bicoef1(n-1,k))
 
-def bicoef2(n,k):   
+def bicoef2(n,k):
     if k==0 or k==n:
         return 1
     if k>n:
         return 0
-    return (int)(bicoef2(n-1,k-1)*(n/k)) #cast this to an int so that this is still usess the right alorythm 
+    return ((n*bicoef2(n-1,k-1))//k) #cast this to an int so that this is still usess the right alorythm 
 
 if __name__ == "__main__":
     #check parameters
