@@ -1,4 +1,4 @@
-
+#Aufgabe 2 von Robin Schmidt, Max Verpers, Milena Stück Python variante
 class Node:
     def __init__(self,parent,next,obj):
         self.next = next

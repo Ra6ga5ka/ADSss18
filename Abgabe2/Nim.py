@@ -1,8 +1,9 @@
+#Aufgabe 3 von Robin Schmidt, Max Verpers, Milena Stück Python variante
 import random
 
 numberOfStacks = 4
 
-def nimAction(player):
+def nimAction(player,stack):
     if len(stack)==1:
         stack.remove(stack[0])
         return "player "+str(player)+" took the last stack"
@@ -16,7 +17,7 @@ def nimAction(player):
                 smallestStack = index
             index += 1
         removeAmmount = stack[smallestStack]-1
-        print(removeAmmount)
+        #print(removeAmmount)
         if(removeAmmount == 0):
             stack.remove(stack[smallestStack])
             return "player "+str(player)+" took the stack nr "+str(smallestStack+1)
@@ -71,19 +72,26 @@ for i in range(0,numberOfStacks):
         for player in range(0,2):
             
             #result[i].append(nimAction(player))
-            out = nimAction(player)
-            print(out)
+            out = nimAction(player,stack)
+            #print(out)
             result[i].append(out)
             if len(stack)== 0:
                 result[i].append("player "+str(player)+" won the match nr "+str(i+1))
                 break
 
+
+result.append(["game [7,5,3,1] with premade Stack"])
+lastGame =[7,5,3,1]
+while len(lastGame)>0:
+    
+    for player in range(0,2):
+        out = nimAction(player,lastGame)
+        result[numberOfStacks].append(out)
+        if len(lastGame)== 0:
+            result[numberOfStacks].append("player "+str(player)+" won the match nr "+str(numberOfStacks+1))
+            break
+
 for game in result:
     for entry in game:
         print(str(entry))
 #print(result)
-    
-
-
-
-

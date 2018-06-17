@@ -1,4 +1,4 @@
-
+#Aufgabe 1 von Robin Schmidt, Max Verpers, Milena Stück Python variante
 
 class Node:
     def __init__(self,next,obj,key):
@@ -77,7 +77,7 @@ class prioQueue:
         return oldhead
     
     def replaceMin(self,obj):
-        """bad function. its going to destroy the queue add algorythm, and it makes no sence"""
+        """komplexity O(1)"""
         self.head = Node(self.head,obj,self.head.prio)
 
     
