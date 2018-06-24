@@ -2,6 +2,7 @@
 
 import time
 import random
+import re
 
 class Node:
     def __init__(self,next,obj):
@@ -111,7 +112,7 @@ class SearchList:
         return line
   
     def search(self,obj):
-        return self.internalSearch(obj,0).next
+        return self.internalSearch(obj,0).next[0]
 
     def add(self, obj):
         """ komplexity O(N)"""
@@ -128,17 +129,26 @@ class SearchList:
                     break
                 currentPos = currentPos.next[0]
         return occurance
+
+    def count(self,obj):
+        return self.search(obj).occurance
     
     def remove(self,obj):
         """ komplexity O(N)"""
-        currentParent = self.internalSearch(obj,0)
-        if currentParent.next.obj == obj:
-            currentParent.next = currentParent.next.next
+        nodetoDelete = self.search(obj)
+        if nodetoDelete == None:
+            print(obj,"is not in the List")
+        else:
+            for i in range(0,len(nodetoDelete.next)):
+                currentParent = self.internalSearch(obj,i)
+                currentParent.next[i] = currentParent.next[i].next[i]
         
     
 def readListFile(file):
     List = open(file,"r").read().split()
+    #List = re.split("[\?\!]",i) for i in words
     #convert the list in my own datatype.. a bit useless but there i know the internal structure
+    List = list(re.split('[\?\!,.;:-\]\[\']',i,0)[0] for i in List)
     a = SearchList(45,7)
     print(len(List))
     for element in List:
@@ -148,10 +158,16 @@ def readListFile(file):
 
 if __name__ == "__main__":
     sysTime = time.time()
-    Words = readListFile("ShakespeareComplete.txt")
+    Words = readListFile("RomeoAndJuliet.txt")
     print ("build List:", (time.time()-sysTime),"sec")
     print(len(Words))
     sysTime = time.time()
     print(Words.noOccurences())
     print ("calc noOccurences:", (time.time()-sysTime),"sec")
+    sysTime = time.time()
+    Words.remove("world")
+    print ("remove Object:", (time.time()-sysTime),"sec")
     #print(str(Words))
+
+
+#hight = int(random()*calculateHeight)+1
