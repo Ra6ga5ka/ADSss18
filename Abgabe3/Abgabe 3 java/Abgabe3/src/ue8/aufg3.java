@@ -17,26 +17,29 @@ public class aufg3 {
     
     public static int [][]  drawlab(int [] laby,int color){
     	// Größe des Laby bestimmen
-    	int size = 0;
+    	int breite = 0;
     	for (int i = 0; i < laby.length; i++) {
 			if(laby[i] == 0)break;
-			size++;
+			breite++;
 		}
     	
-    	
-		int [] [] lab = new int[size] [size];
+    	int höhe = (laby.length/breite-1);
+		int [] [] lab = new int[höhe] [breite];
+		
+
+		System.out.println("Höhe: "+höhe);
+		System.out.println("Breite: "+breite);
 		int j = 0;
-			for (int k = 0; k < lab.length; k++) {
-				for (int l = 0; l < lab.length; l++) {
+			for (int k = 0; k < höhe; k++) {
+				for (int l = 0; l < breite; l++) {
 					if(laby[j] == 0) j++;
 					lab[k] [l] = laby[j];
-					
 					
 					//Einfärben
 					if(lab[k][0] == 1){
 						lab[k] [0] = ROT;
-					} else if(lab[k][size-1] == 1){
-						lab[k] [size-1] = ROT;
+					} else if(lab[k][breite-1] == 1){
+						lab[k] [breite-1] = ROT;
 					}
 					if(lab[k] [l] == 1) lab[k] [l] = color;
 					
@@ -48,37 +51,26 @@ public class aufg3 {
     
     public static int[] ini(String inputString){
     	int []  bsp = null;
-	    switch (inputString) {
-		case "laby0":
-			 return bsp  = ADSTool.readIntArray("labs/laby0.dat");
-		case "laby1":
-			return bsp  = ADSTool.readIntArray("labs/laby1.dat");
-		case "laby2":
-			return bsp  = ADSTool.readIntArray("labs/laby2.dat");
-		case "laby3":
-			return bsp  = ADSTool.readIntArray("labs/laby3.dat");
-		case "laby4":
-			return bsp  = ADSTool.readIntArray("labs/laby4.dat");
-		case "laby5":
-			return bsp  = ADSTool.readIntArray("labs/laby5.dat");
-		default:
-			return null;
-		}
+    	String path= "labs/"+inputString+".dat";
+		return bsp  = ADSTool.readIntArray(path);
     }
     
     public static void raster(int [][] laby){
+    	ADSTool.clearGraph();
 	    ADSTool.raster(laby);
 	    ADSTool.showGraph();
     }
-    public static void rasterMultiple(){
-    	while(true){
-    		
-    	}
+    public static void rasterMultiple(String split[], int [][] laby,int time,int i,int color){
+		for (i = i;i < split.length; i++) {
+			laby = drawlab(ini(split[i]), color);
+			raster(laby);
+			ADSTool.schlafe(time);
+		}
     }
     
 	
 	public static void main(String[] args) {
-		int color = 0;
+
 		int [][] laby = null;
 	    Scanner scanner = new Scanner(System.in);
 	    String inputString = scanner.nextLine();
@@ -95,35 +87,20 @@ public class aufg3 {
 			if(split[0].equalsIgnoreCase("-v")){	//Falls noch Farbenaufruf
 				if(split[2].contains("lab")){
 					//2 sekunden schalten
-					for (int i = 2; i <= split.length; i++) {
-						laby = drawlab(ini(split[i]), HELLGRAU);
-						raster(laby);
-						ADSTool.schlafe(2000);
-					}
+					rasterMultiple(split, laby, 2000, 2,HELLGRAU);
 				} else {	
 					int time =Integer.parseInt(split[2]) * 1000;
 					System.out.println(split.length);
-					for (int i = 3; i < split.length; i++) {
-						laby = drawlab(ini(split[i]), HELLGRAU);
-						raster(laby);
-						ADSTool.schlafe(time);
-					}
+					rasterMultiple(split, laby, time, 3,HELLGRAU);
+
 				}
 			} else{ //Labs ohne Farbenaufruf
 				if(split[1].contains("lab")){
 					//2 sekunden schalten
-					for (int i = 1; i < split.length; i++) {
-						laby = drawlab(ini(split[i]), WEISS);
-						raster(laby);
-						ADSTool.schlafe(2000);
-					}
+					rasterMultiple(split, laby, 2000, 1,WEISS);
 				} else {
-					int time = Integer.parseInt(split[2])*1000;
-					for (int i = 2; i < split.length; i++) {
-						laby = drawlab(ini(split[i]), WEISS);
-						raster(laby);
-						ADSTool.schlafe(time);
-					}
+					int time = Integer.parseInt(split[1])*1000;
+					rasterMultiple(split, laby, time, 2,WEISS);
 				}
 			}
 	   }
